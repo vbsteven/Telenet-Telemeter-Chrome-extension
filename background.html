@@ -1,0 +1,64 @@
+<html>
+<head>
+
+<script>
+
+function fetchdata() {
+  console.log('fetching data');
+  var url = "https://t4t.services.telenet.be/TelemeterService";
+  var username = '';
+  var password = '';
+
+  var data = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:tel=\"http://www.telenet.be/TelemeterService/\"><soapenv:Header/><soapenv:Body><tel:RetrieveUsageRequest><UserId>" + username + "</UserId><Password>" + password + "</Password></tel:RetrieveUsageRequest></soapenv:Body></soapenv:Envelope>";
+
+  console.log(data);
+ 
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', url, false);
+  xhr.setRequestHeader('Content-Type','text/xml');
+  xhr.send(data);
+
+  if (xhr.status != 200) {
+    // no OK response
+    console.log('fail status: ' + xhr.status);
+    return;
+  }
+
+  console.log('response: ' + xhr.response);
+
+  parser = new DOMParser();
+  xmlDoc = parser.parseFromString(xhr.response, "text/xml");
+  
+  
+  var arr = xmlDoc.getElementsByTagName("TotalUsage");
+  var totalusage = arr[0].childNodes[0].data;
+  console.log("totalusage: " + totalusage);
+  
+  arr = xmlDoc.getElementsByTagName("Limit");
+  var limit = arr[0].childNodes[0].data;
+  console.log("limit: " + limit);
+
+  arr = xmlDoc.getElementsByTagName("Unit");
+  var unit = arr[0].childNodes[0].data;
+  console.log("unit: " + unit);
+
+  arr = xmlDoc.getElementsByTagName("Timestamp");
+  var timestamp = arr[0].childNodes[0].data;
+  console.log("timestamp: " + timestamp);
+
+
+
+  // get dailyusages
+  arr = xmlDoc.getElementsByTagName("DailyUsage");
+  for (i = 0; i < arr.length; i++) {
+    var day = arr[i].childNodes[0].childNodes[0].data;
+    var usage = arr[i].childNodes[1].childNodes[0].data;
+    console.log("daily usage: " + day + " : " + usage);
+  }
+}
+
+</script>
+
+</head>
+<body onload="fetchdata()">
+</body>

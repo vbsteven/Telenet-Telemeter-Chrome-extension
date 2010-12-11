@@ -1,0 +1,17 @@
+{
+  "name": "Telemeter for Chrome",
+  "version": "0.1",
+  "description": "Chrome extension for the Telemeter of belgian ISP Telenet",
+  "options_page": "options.html",
+  "background_page": "background.html",
+  "icons": { "128":"icon.png" },
+  "browser_action": {
+    "default_icon":"icon.png",
+    "popup":"popup.html"
+  },
+  "permissions": [
+    "notifications",
+    "https://t4t.services.telenet.be/",
+    "http://bookmarktodesktop.appspot.com/"
+  ]
+}
