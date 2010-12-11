@@ -5,9 +5,15 @@
 
 function fetchdata() {
   console.log('fetching data');
+
   var url = "https://t4t.services.telenet.be/TelemeterService";
-  var username = '';
-  var password = '';
+  var username = localStorage['username'];
+  var password = localStorage['password'];
+
+  if (!username || !password) {
+    // no account details yet
+    return;
+  }
 
   var data = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:tel=\"http://www.telenet.be/TelemeterService/\"><soapenv:Header/><soapenv:Body><tel:RetrieveUsageRequest><UserId>" + username + "</UserId><Password>" + password + "</Password></tel:RetrieveUsageRequest></soapenv:Body></soapenv:Envelope>";
 
