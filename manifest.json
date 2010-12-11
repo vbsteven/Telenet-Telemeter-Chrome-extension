@@ -1,5 +1,5 @@
 {
-  "name": "Telemeter for Chrome",
+  "name": "Telenet Telemeter for Chrome",
   "version": "0.1",
   "description": "Chrome extension for the Telemeter of belgian ISP Telenet",
   "options_page": "options.html",
