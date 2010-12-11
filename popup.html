@@ -1,10 +1,13 @@
 <html>
 <head>
+  <script src="libs/RGraph.common.core.js"></script>
+  <script src="libs/RGraph.hprogress.js"></script>
 </head>
 <style>
 
 body {
-  min-width:300px;
+  min-width:400px;
+  min-height:300px;
 }
 
 </style>
@@ -23,13 +26,27 @@ function init() {
   document.getElementById("p_range").innerHTML = 'data valid from ' + firstday + ' until ' + lastday;
   document.getElementById("p_limit").innerHTML = 'limit: ' + limit + unit;
   document.getElementById("p_totalusage").innerHTML = 'total used: ' + totalusage + unit;
+
+  var percentage = (totalusage/limit)*100; 
+  drawGeneralProgress(percentage);
 }
 
+function drawGeneralProgress(percentage) {
+  var progress = new RGraph.HProgress('canvas_progress', percentage, 100);
+  progress.Set('chart.tickmarks', true);
+  progress.Set('chart.margin', 3);
+  progress.Set('chart.tickmarks.inner', true);
+  progress.Set('chart.label.inner', true);
+  progress.Set('chart.min', 0);
+  progress.Set('chart.units.post', '%');
+  progress.Draw();
+}
 </script>
 
 
 <h1>Telemeter stats</h1>
-
+<canvas id="canvas_progress" width="400px" height="75px"></canvas>
+</br>
 <p id="p_range"></p>
 <p id="p_limit"></p>
 <p id="p_totalusage"></p>
