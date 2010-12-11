@@ -69,10 +69,12 @@ function fetchdata() {
   }
 
 
-  // get last day of this dataset
+  // get first and last day of this dataset
   var lastday = "unknown";
+  var firstday = "unknown";
   if (dailyusage.length > 0) {
-    lastday = dailyusage.slice(-1);
+    lastday = dailyusage.slice(-1)[0].day;
+    firstday = dailyusage.slice(0,1)[0].day;
   }
 
   // save values to localstorage
@@ -81,6 +83,7 @@ function fetchdata() {
   localStorage['unit'] = unit;
   localStorage['timestamp'] = timestamp;
   localStorage['dailyusage'] = dailyusage;
+  localStorage['firstday'] = firstday;
   localStorage['lastday'] = lastday;
 }
 

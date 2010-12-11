@@ -1,0 +1,36 @@
+<html>
+<head>
+</head>
+<style>
+
+body {
+  min-width:300px;
+}
+
+</style>
+<body onload="init()">
+
+<script>
+
+function init() {
+  var limit = localStorage['limit'];
+  var totalusage = localStorage['totalusage'];
+  var unit = localStorage['unit'];
+  var dailyusage = localStorage['dailyusage'];
+  var firstday = localStorage['firstday'];
+  var lastday = localStorage['lastday'];
+
+  document.getElementById("p_range").innerHTML = 'data valid from ' + firstday + ' until ' + lastday;
+  document.getElementById("p_limit").innerHTML = 'limit: ' + limit + unit;
+  document.getElementById("p_totalusage").innerHTML = 'total used: ' + totalusage + unit;
+}
+
+</script>
+
+
+<h1>Telemeter stats</h1>
+
+<p id="p_range"></p>
+<p id="p_limit"></p>
+<p id="p_totalusage"></p>
+</body>
