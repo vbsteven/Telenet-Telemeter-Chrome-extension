@@ -12,30 +12,34 @@ function fetchdata() {
 
   if (!username || !password) {
     // no account details yet
+    console.log('called fetchdata without credentials');
     return;
   }
 
   var data = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:tel=\"http://www.telenet.be/TelemeterService/\"><soapenv:Header/><soapenv:Body><tel:RetrieveUsageRequest><UserId>" + username + "</UserId><Password>" + password + "</Password></tel:RetrieveUsageRequest></soapenv:Body></soapenv:Envelope>";
 
   console.log(data);
- 
+
+  // create the request
   var xhr = new XMLHttpRequest();
   xhr.open('POST', url, false);
+  // mandatory header for the server to accept the request
   xhr.setRequestHeader('Content-Type','text/xml');
   xhr.send(data);
 
   if (xhr.status != 200) {
-    // no OK response
-    console.log('fail status: ' + xhr.status);
+    // no 200 OK response
+    console.log('telemeter service returned status ' + xhr.status);
     return;
   }
 
   console.log('response: ' + xhr.response);
 
+  // parse the response
   parser = new DOMParser();
   xmlDoc = parser.parseFromString(xhr.response, "text/xml");
   
-  
+  // get general values from the response
   var arr = xmlDoc.getElementsByTagName("TotalUsage");
   var totalusage = arr[0].childNodes[0].data;
   console.log("totalusage: " + totalusage);
@@ -51,16 +55,33 @@ function fetchdata() {
   arr = xmlDoc.getElementsByTagName("Timestamp");
   var timestamp = arr[0].childNodes[0].data;
   console.log("timestamp: " + timestamp);
+  
+  var dailyusage = new Array();
 
-
-
-  // get dailyusages
+  // get usage per day from the response
   arr = xmlDoc.getElementsByTagName("DailyUsage");
   for (i = 0; i < arr.length; i++) {
-    var day = arr[i].childNodes[0].childNodes[0].data;
-    var usage = arr[i].childNodes[1].childNodes[0].data;
-    console.log("daily usage: " + day + " : " + usage);
+    var obj  = new Object();
+    obj.day = arr[i].childNodes[0].childNodes[0].data.substring(0, 10);
+    obj.usage = arr[i].childNodes[1].childNodes[0].data;
+    dailyusage.push(obj);
+    console.log("daily usage: " + obj.day + " : " + obj.usage);
   }
+
+
+  // get last day of this dataset
+  var lastday = "unknown";
+  if (dailyusage.length > 0) {
+    lastday = dailyusage.slice(-1);
+  }
+
+  // save values to localstorage
+  localStorage['totalusage'] = totalusage;
+  localStorage['limit'] = limit;
+  localStorage['unit'] = unit;
+  localStorage['timestamp'] = timestamp;
+  localStorage['dailyusage'] = dailyusage;
+  localStorage['lastday'] = lastday;
 }
 
 </script>
