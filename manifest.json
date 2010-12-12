@@ -4,13 +4,12 @@
   "description": "Chrome extension for the Telemeter of belgian ISP Telenet",
   "options_page": "options.html",
   "background_page": "background.html",
-  "icons": { "128":"icon.png" },
+  "icons": { "128":"logo_telenet.png" },
   "browser_action": {
     "default_icon":"icon.png",
     "popup":"popup.html"
   },
   "permissions": [
-    "notifications",
     "https://t4t.services.telenet.be/"
   ]
 }
