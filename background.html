@@ -25,8 +25,6 @@ function fetchdata() {
 
   var data = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:tel=\"http://www.telenet.be/TelemeterService/\"><soapenv:Header/><soapenv:Body><tel:RetrieveUsageRequest><UserId>" + username + "</UserId><Password>" + password + "</Password></tel:RetrieveUsageRequest></soapenv:Body></soapenv:Envelope>";
 
-  console.log(data);
-
   // create the request
   var xhr = new XMLHttpRequest();
   xhr.open('POST', url, false);
@@ -39,8 +37,6 @@ function fetchdata() {
     console.log('telemeter service returned status ' + xhr.status);
     return;
   }
-
-  console.log('response: ' + xhr.response);
 
   // parse the response
   parser = new DOMParser();
@@ -72,7 +68,6 @@ function fetchdata() {
     obj.day = formatdate(arr[i].childNodes[0].childNodes[0].data.substring(0, 10));
     obj.usage = arr[i].childNodes[1].childNodes[0].data;
     dailyusage.push(obj);
-    console.log("daily usage: " + obj.day + " : " + obj.usage);
   }
 
 
