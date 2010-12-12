@@ -16,6 +16,8 @@ function save_options() {
   var status = document.getElementById("status");
   status.innerHTML = "Options Saved.";
   document.getElementById("form").innerHTML = "";
+
+  chrome.extension.getBackgroundPage().fetchdata();
 }
 
 // Restores options from localStorage

@@ -11,6 +11,6 @@
   },
   "permissions": [
     "notifications",
-    "https://t4t.services.telenet.be/",
+    "https://t4t.services.telenet.be/"
   ]
 }

@@ -11,6 +11,12 @@
 
 var showdetails = false;
 
+function configure() {
+  properties = new Object();
+  properties.url = "options.html"
+  chrome.tabs.create(properties, null);
+}
+
 function init() {
   var limit = localStorage['limit'];
   var totalusage = localStorage['totalusage'];
@@ -19,6 +25,20 @@ function init() {
   var firstday = localStorage['firstday'];
   var lastday = localStorage['lastday'];
   var username = localStorage['username'];
+  var password = localStorage['password'];
+  
+  if (!username || !password) {
+    document.getElementById("h_title").innerHTML = 'No credentials found<br/><button onclick="configure()">Configure</button>';
+    document.getElementById("alldata").setAttribute("class", "hidden");
+    return;
+  }
+
+  if (!totalusage) {
+    document.getElementById("h_title").innerHTML = 'Invalid data<br/>Are your credentials correct?<br/><button onclick="configure()">Configure</button>';
+    document.getElementById("alldata").setAttribute("class", "hidden");
+    return;
+  }
+
 
   document.getElementById("h_title").innerHTML = 'Telemeter status for ' + username;
   document.getElementById("from").innerHTML = '<b>' + firstday + '</b>';
@@ -94,22 +114,20 @@ function report() {
 
 
 <center><h1 id="h_title">Telemeter stats</h1>
-<canvas id="canvas_progress" width="400px" height="75px"></canvas>
+<span id="alldata">
+  <canvas id="canvas_progress" width="400px" height="75px"></canvas>
 
-<table>
-  <tr><td>From: </td><td id="from"></td></tr>
-  <tr><td>Until: </td><td id="to"></td></tr>
-  <tr><td>Bandwith limit: </td><td id="limit"></td></tr>
-  <tr><td>Bandwith used: </td><td id="totalusage"></td></tr>
-</table>
-<p id="p_from" class="data"></p>
-<p id="p_to" class="data"></p>
-<p id="p_limit" class="data"></p>
-<p id="p_totalusage" class="data"></p>
-<p class="data" ><a href="#" id="showmorelink" onclick="showmore()">show daily usage</a></p>
-<span id="seemore" class="hidden">
-<center><h1>Detailed usage per day</h1></center>
-<canvas id="canvas_detail" width="450px" height="600px"></canvas>
+  <table>
+    <tr><td>From: </td><td id="from"></td></tr>
+    <tr><td>Until: </td><td id="to"></td></tr>
+    <tr><td>Bandwith limit: </td><td id="limit"></td></tr>
+    <tr><td>Bandwith used: </td><td id="totalusage"></td></tr>
+  </table>
+  <p class="data" ><a href="#" id="showmorelink" onclick="showmore()">show daily usage</a></p>
+  <span id="seemore" class="hidden">
+    <center><h1>Detailed usage per day</h1></center>
+    <canvas id="canvas_detail" width="450px" height="600px"></canvas>
+  </span>
 </span>
 <p class="small"><a onclick="report()" href="">Report a bug or suggest a feature</a></p>
 </center>

@@ -3,6 +3,13 @@
 
 <script>
 
+
+function init() {
+ timeouthandle = setInterval(function() {
+     fetchdata();
+   }, 60*60*1000); // update every hour
+}
+
 function fetchdata() {
   console.log('fetching data');
 
@@ -101,5 +108,5 @@ function formatdate(input) {
 </script>
 
 </head>
-<body onload="fetchdata()">
+<body onload="init()">
 </body>
