@@ -82,9 +82,12 @@ function fetchdata() {
   localStorage['limit'] = limit;
   localStorage['unit'] = unit;
   localStorage['timestamp'] = timestamp;
-  localStorage['dailyusage'] = dailyusage;
   localStorage['firstday'] = firstday;
   localStorage['lastday'] = lastday;
+
+  // convert dailyusage array to JSON before storing in localstorage
+  str = JSON.stringify(dailyusage);
+  localStorage['dailyusage'] = str
 }
 
 </script>

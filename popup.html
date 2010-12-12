@@ -2,11 +2,12 @@
 <head>
   <script src="libs/RGraph.common.core.js"></script>
   <script src="libs/RGraph.hprogress.js"></script>
+  <script src="libs/RGraph.hbar.js"></script>
 </head>
 <style>
 
 body {
-  min-width:400px;
+  min-width:500px;
   min-height:300px;
 }
 
@@ -19,7 +20,7 @@ function init() {
   var limit = localStorage['limit'];
   var totalusage = localStorage['totalusage'];
   var unit = localStorage['unit'];
-  var dailyusage = localStorage['dailyusage'];
+  var dailyusage = eval(localStorage['dailyusage']);
   var firstday = localStorage['firstday'];
   var lastday = localStorage['lastday'];
 
@@ -29,6 +30,8 @@ function init() {
 
   var percentage = (totalusage/limit)*100; 
   drawGeneralProgress(percentage);
+
+  drawDetail(dailyusage, unit);
 }
 
 function drawGeneralProgress(percentage) {
@@ -41,6 +44,33 @@ function drawGeneralProgress(percentage) {
   progress.Set('chart.units.post', '%');
   progress.Draw();
 }
+
+function drawDetail(dailyusage, unit) {
+  var values = new Array();
+  var dates = new Array();
+
+  for (i = 0; i < dailyusage.length; i++) {
+    var d = dailyusage[i];
+    values[i] = parseInt(Math.random()*4000); //parseInt(dailyusage[i].usage);
+    dates[i] = dailyusage[i].day.substr(5);
+    console.log(values[i] + ' / ' + dates[i]);
+  }
+
+  var hbar = new RGraph.HBar('canvas_detail', values); 
+  hbar.Set('chart.title.xaxis', 'Usage in ' + unit);
+  hbar.Set('chart.title.yaxis', 'Date');
+  hbar.Set('chart.background.barcolor1', '#ccc');
+  hbar.Set('chart.background.barcolor2', '#ccc');
+  hbar.Set('chart.background.grid.autofit', true);
+  hbar.Set('chart.units.post', ' ' + unit);
+  hbar.Set('chart.text.style', '#333');
+  hbar.Set('chart.colors', ['green']);
+  hbar.Set('chart.labels', dates);
+  hbar.Set('chart.vmargin', 2);
+  hbar.Set('chart.gutter', 25);
+  hbar.Set('chart.labels.above', true);
+  hbar.Draw();
+}
 </script>
 
 
@@ -50,4 +80,7 @@ function drawGeneralProgress(percentage) {
 <p id="p_range"></p>
 <p id="p_limit"></p>
 <p id="p_totalusage"></p>
+<a href="#" onclick="showmore()">Show more</a>
+
+<canvas id="canvas_detail" width="400px" height="600px"></canvas>
 </body>
