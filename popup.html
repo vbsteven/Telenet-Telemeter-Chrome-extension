@@ -8,13 +8,40 @@
 
 body {
   min-width:500px;
-  min-height:300px;
+  //min-height:300px;
+  background-color: #edd400;
+  font-family: verdana;
+}
+
+h1 {
+  font-style: bold;
+  font-size: 1.3em;
+  color: #cc0000;
+  margin: 20px 0 0 0;
+}
+
+.data {
+  margin: 5px 0px;
+}
+
+.small {
+  font-size: 0.7em;
+}
+
+.hidden {
+  display: none;
+}
+
+.shown {
+  display: block;
 }
 
 </style>
 <body onload="init()">
 
 <script>
+
+var showdetails = false;
 
 function init() {
   var limit = localStorage['limit'];
@@ -23,8 +50,11 @@ function init() {
   var dailyusage = eval(localStorage['dailyusage']);
   var firstday = localStorage['firstday'];
   var lastday = localStorage['lastday'];
+  var username = localStorage['username'];
 
-  document.getElementById("p_range").innerHTML = 'data valid from ' + firstday + ' until ' + lastday;
+  document.getElementById("h_title").innerHTML = 'Telemeter status for ' + username;
+  document.getElementById("p_from").innerHTML = 'from ' + firstday;
+  document.getElementById("p_to").innerHTML = 'to ' + lastday;
   document.getElementById("p_limit").innerHTML = 'limit: ' + limit + unit;
   document.getElementById("p_totalusage").innerHTML = 'total used: ' + totalusage + unit;
 
@@ -64,23 +94,47 @@ function drawDetail(dailyusage, unit) {
   hbar.Set('chart.background.grid.autofit', true);
   hbar.Set('chart.units.post', ' ' + unit);
   hbar.Set('chart.text.style', '#333');
-  hbar.Set('chart.colors', ['green']);
+  hbar.Set('chart.colors', ['red']);
   hbar.Set('chart.labels', dates);
   hbar.Set('chart.vmargin', 2);
   hbar.Set('chart.gutter', 25);
   hbar.Set('chart.labels.above', true);
   hbar.Draw();
 }
+
+function showmore() {
+  showdetails = !showdetails; 
+  var span = document.getElementById("seemore");
+  var link = document.getElementById("showmorelink");
+  
+  if (showdetails) {
+    span.setAttribute("class", "shown");
+    link.innerHTML = "hide details";
+  } else {
+    span.setAttribute("class", "hidden");
+    link.innerHTML = "show details";
+  }
+}
+
+function report() {
+  obj = new Object();
+  obj.url = "https://github.com/vbsteven/Telenet-Telemeter-Chrome-extension/issues";
+  chrome.tabs.create(obj);
+}
+
 </script>
 
 
-<h1>Telemeter stats</h1>
+<center><h1 id="h_title">Telemeter stats</h1>
 <canvas id="canvas_progress" width="400px" height="75px"></canvas>
-</br>
-<p id="p_range"></p>
-<p id="p_limit"></p>
-<p id="p_totalusage"></p>
-<a href="#" onclick="showmore()">Show more</a>
-
-<canvas id="canvas_detail" width="400px" height="600px"></canvas>
+</center>
+<p id="p_from" class="data"></p>
+<p id="p_to" class="data"></p>
+<p id="p_limit" class="data"></p>
+<p id="p_totalusage" class="data"></p>
+<p class="data" ><a href="#" id="showmorelink" onclick="showmore()">show details</a></p>
+<span id="seemore" class="hidden">
+<canvas id="canvas_detail" width="450px" height="600px"></canvas>
+</span>
+<p class="small"><a onclick="report()" href="">Report a bug or suggest a feature</a></p>
 </body>
