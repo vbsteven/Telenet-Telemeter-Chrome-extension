@@ -12,6 +12,5 @@
   "permissions": [
     "notifications",
     "https://t4t.services.telenet.be/",
-    "http://bookmarktodesktop.appspot.com/"
   ]
 }
