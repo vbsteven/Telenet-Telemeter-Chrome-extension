@@ -40,7 +40,7 @@ function fetchdata() {
 
   // parse the response
   parser = new DOMParser();
-  xmlDoc = parser.parseFromString(xhr.response, "text/xml");
+  xmlDoc = parser.parseFromString(xhr.responseText, "text/xml");
   
   // get general values from the response
   var arr = xmlDoc.getElementsByTagName("TotalUsage");
