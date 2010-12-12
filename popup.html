@@ -21,10 +21,10 @@ function init() {
   var username = localStorage['username'];
 
   document.getElementById("h_title").innerHTML = 'Telemeter status for ' + username;
-  document.getElementById("p_from").innerHTML = 'from ' + firstday;
-  document.getElementById("p_to").innerHTML = 'to ' + lastday;
-  document.getElementById("p_limit").innerHTML = 'limit: ' + limit + unit;
-  document.getElementById("p_totalusage").innerHTML = 'total used: ' + totalusage + unit;
+  document.getElementById("from").innerHTML = '<b>' + firstday + '</b>';
+  document.getElementById("to").innerHTML = '<b>' + lastday + '</b>';
+  document.getElementById("limit").innerHTML = '<b>' + limit + ' ' + unit + '</b>';
+  document.getElementById("totalusage").innerHTML = '<b>' + totalusage + ' ' +  unit + '</b>';
 
   var percentage = (totalusage/limit)*100; 
   drawGeneralProgress(percentage);
@@ -49,8 +49,8 @@ function drawDetail(dailyusage, unit) {
 
   for (i = 0; i < dailyusage.length; i++) {
     var d = dailyusage[i];
-    values[i] = parseInt(Math.random()*4000); //parseInt(dailyusage[i].usage);
-    dates[i] = dailyusage[i].day.substr(5);
+    values[i] = parseInt(dailyusage[i].usage);
+    dates[i] = dailyusage[i].day.substr(0, 5);
     console.log(values[i] + ' / ' + dates[i]);
   }
 
@@ -77,10 +77,10 @@ function showmore() {
   
   if (showdetails) {
     span.setAttribute("class", "shown");
-    link.innerHTML = "hide details";
+    link.innerHTML = "hide daily usage";
   } else {
     span.setAttribute("class", "hidden");
-    link.innerHTML = "show details";
+    link.innerHTML = "show  daily usage";
   }
 }
 
@@ -95,14 +95,22 @@ function report() {
 
 <center><h1 id="h_title">Telemeter stats</h1>
 <canvas id="canvas_progress" width="400px" height="75px"></canvas>
-</center>
+
+<table>
+  <tr><td>From: </td><td id="from"></td></tr>
+  <tr><td>Until: </td><td id="to"></td></tr>
+  <tr><td>Bandwith limit: </td><td id="limit"></td></tr>
+  <tr><td>Bandwith used: </td><td id="totalusage"></td></tr>
+</table>
 <p id="p_from" class="data"></p>
 <p id="p_to" class="data"></p>
 <p id="p_limit" class="data"></p>
 <p id="p_totalusage" class="data"></p>
-<p class="data" ><a href="#" id="showmorelink" onclick="showmore()">show details</a></p>
+<p class="data" ><a href="#" id="showmorelink" onclick="showmore()">show daily usage</a></p>
 <span id="seemore" class="hidden">
+<center><h1>Detailed usage per day</h1></center>
 <canvas id="canvas_detail" width="450px" height="600px"></canvas>
 </span>
 <p class="small"><a onclick="report()" href="">Report a bug or suggest a feature</a></p>
+</center>
 </body>

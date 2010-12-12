@@ -62,7 +62,7 @@ function fetchdata() {
   arr = xmlDoc.getElementsByTagName("DailyUsage");
   for (i = 0; i < arr.length; i++) {
     var obj  = new Object();
-    obj.day = arr[i].childNodes[0].childNodes[0].data.substring(0, 10);
+    obj.day = formatdate(arr[i].childNodes[0].childNodes[0].data.substring(0, 10));
     obj.usage = arr[i].childNodes[1].childNodes[0].data;
     dailyusage.push(obj);
     console.log("daily usage: " + obj.day + " : " + obj.usage);
@@ -88,6 +88,14 @@ function fetchdata() {
   // convert dailyusage array to JSON before storing in localstorage
   str = JSON.stringify(dailyusage);
   localStorage['dailyusage'] = str
+}
+function formatdate(input) {
+  arr = input.split('-');
+  if (arr.length != 3) {
+    return input;
+  }
+
+  return arr[2] + '/' + arr[1] + '/' + arr[0];
 }
 
 </script>
