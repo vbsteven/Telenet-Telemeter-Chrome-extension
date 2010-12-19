@@ -41,10 +41,8 @@ function init() {
 
 
   document.getElementById("h_title").innerHTML = 'Telemeter status for ' + username;
-  document.getElementById("from").innerHTML = '<b>' + firstday + '</b>';
-  document.getElementById("to").innerHTML = '<b>' + lastday + '</b>';
-  document.getElementById("limit").innerHTML = '<b>' + limit + ' ' + unit + '</b>';
-  document.getElementById("totalusage").innerHTML = '<b>' + totalusage + ' ' +  unit + '</b>';
+  document.getElementById("period").innerHTML = 'period: ' + firstday.substr(0,5) + ' to ' + lastday.substr(0,5);
+  document.getElementById("quota").innerHTML = 'free: ' + formatQuota(limit-totalusage) + ' - used: ' + formatQuota(totalusage) + ' - limit: ' + formatQuota(limit);
 
   var percentage = (totalusage/limit)*100; 
   drawGeneralProgress(percentage);
@@ -110,19 +108,25 @@ function report() {
   chrome.tabs.create(obj);
 }
 
+function formatQuota(quota) {
+  if (true) {
+    temp = quota/1024;
+    return temp.toFixed(2) + " GB";
+  }
+
+  // no change needed, return
+  return quota + " MB";
+}
+
+
 </script>
 
 
 <center><h1 id="h_title">Telemeter stats</h1>
 <span id="alldata">
   <canvas id="canvas_progress" width="400px" height="75px"></canvas>
-
-  <table>
-    <tr><td>From: </td><td id="from"></td></tr>
-    <tr><td>Until: </td><td id="to"></td></tr>
-    <tr><td>Bandwith limit: </td><td id="limit"></td></tr>
-    <tr><td>Bandwith used: </td><td id="totalusage"></td></tr>
-  </table>
+  <p class="data" id="quota"></p>
+  <p class="data" id="period"></p>
   <p class="data" ><a href="#" id="showmorelink" onclick="showmore()">show daily usage</a></p>
   <span id="seemore" class="hidden">
     <center><h1>Detailed usage per day</h1></center>

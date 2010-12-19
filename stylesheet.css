@@ -1,6 +1,5 @@
 body {
-  min-width:500px;
-  //min-height:300px;
+  min-width: 400px;
   background-color: #ffc84d;
   font-family: sans-serif;
 }
@@ -14,10 +13,11 @@ h1 {
 
 .data {
   margin: 5px 0px;
+  font-size: 0.7em;
 }
 
 .small {
-  font-size: 0.7em;
+  font-size: 0.8em;
 }
 
 .hidden {
