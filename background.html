@@ -30,8 +30,12 @@ function fetchdata() {
   xhr.open('POST', url, false);
   // mandatory header for the server to accept the request
   xhr.setRequestHeader('Content-Type','text/xml');
-  xhr.send(data);
-
+  try {
+    xhr.send(data);
+  } catch (e) {
+    console.log('error occurred while fetching data from service');
+    return;
+  }
   if (xhr.status != 200) {
     // no 200 OK response
     console.log('telemeter service returned status ' + xhr.status);
